@@ -99,9 +99,9 @@ def generate_ai_response(prompt_text, api_key, temperature=0.3):
   try:
     genai.configure(api_key=api_key)
     generation_config = {"temperature": temperature}
-    # Latest stable Gemini 2.0 Flash model
+    # Updated to latest Gemini 3.8 Flash model as requested by API
     model = genai.GenerativeModel(
-        model_name="gemini-2.0-flash", generation_config=generation_config
+        model_name="gemini-3.8-flash", generation_config=generation_config
     )
     response = model.generate_content(prompt_text)
     return response.text
