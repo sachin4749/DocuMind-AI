@@ -99,7 +99,7 @@ def generate_ai_response(prompt_text, api_key, temperature=0.3):
   try:
     genai.configure(api_key=api_key)
     generation_config = {"temperature": temperature}
-    # Correct model name without 'models/' prefix
+    # Standard stable model name
     model = genai.GenerativeModel(
         model_name="gemini-1.5-flash", generation_config=generation_config
     )
