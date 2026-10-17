@@ -99,9 +99,9 @@ def generate_ai_response(prompt_text, api_key, temperature=0.3):
   try:
     genai.configure(api_key=api_key)
     generation_config = {"temperature": temperature}
-    # Standard stable model name
+    # Updated to latest stable Gemini 2.0 Flash model
     model = genai.GenerativeModel(
-        model_name="gemini-1.5-flash", generation_config=generation_config
+        model_name="gemini-2.0-flash", generation_config=generation_config
     )
     response = model.generate_content(prompt_text)
     return response.text
@@ -271,18 +271,4 @@ if uploaded_file is not None:
                   " the user's question strictly and accurately based on the"
                   " provided document text. If the answer cannot be found in"
                   " the text, state that clearly.\n\nDocument"
-                  f" Text:\n{pdf_text[:15000]}\n\nUser Question: {user_query}"
-              )
-              response_text = generate_ai_response(
-                  qa_prompt, api_key, temperature
-              )
-
-            st.markdown(response_text)
-            st.session_state.messages.append(
-                {"role": "assistant", "content": response_text}
-            )
-else:
-  st.info(
-      "👋 Welcome to **DocuMind AI**! Get started by uploading a PDF document"
-      " using the sidebar on the left."
-  )
+                  f" Text:\n{pdf_text[:15000]}\n\nUser Question:
