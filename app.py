@@ -99,7 +99,7 @@ def generate_ai_response(prompt_text, api_key, temperature=0.3):
   try:
     genai.configure(api_key=api_key)
     generation_config = {"temperature": temperature}
-    # Updated to latest stable Gemini 2.0 Flash model
+    # Latest stable Gemini 2.0 Flash model
     model = genai.GenerativeModel(
         model_name="gemini-2.0-flash", generation_config=generation_config
     )
@@ -201,11 +201,11 @@ if uploaded_file is not None:
           )
         else:
           with st.spinner("🤖 Synthesizing key insights..."):
-            summary_prompt = (
-                "Provide a comprehensive, beautifully structured executive"
-                " summary of the following document, followed by 5 key"
-                f" bullet-point takeaways:\n\n{pdf_text[:15000]}"
-            )
+            summary_prompt = f"""Provide a comprehensive, beautifully structured executive summary of the following document, followed by 5 key bullet-point takeaways:
+
+Document Text:
+{pdf_text[:15000]}"""
+
             summary_result = generate_ai_response(
                 summary_prompt, api_key, temperature
             )
@@ -266,9 +266,23 @@ if uploaded_file is not None:
                   " secrets."
               )
             else:
-              qa_prompt = (
-                  "You are DocuMind AI, an expert research assistant. Answer"
-                  " the user's question strictly and accurately based on the"
-                  " provided document text. If the answer cannot be found in"
-                  " the text, state that clearly.\n\nDocument"
-                  f" Text:\n{pdf_text[:15000]}\n\nUser Question:
+              qa_prompt = f"""You are DocuMind AI, an expert research assistant. Answer the user's question strictly and accurately based on the provided document text. If the answer cannot be found in the text, state that clearly.
+
+Document Text:
+{pdf_text[:15000]}
+
+User Question: {user_query}"""
+
+              response_text = generate_ai_response(
+                  qa_prompt, api_key, temperature
+              )
+
+            st.markdown(response_text)
+            st.session_state.messages.append(
+                {"role": "assistant", "content": response_text}
+            )
+else:
+  st.info(
+      "👋 Welcome to **DocuMind AI**! Get started by uploading a PDF document"
+      " using the sidebar on the left."
+  )
